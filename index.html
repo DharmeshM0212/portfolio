@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Name — Portfolio</title>
+  <meta name="description" content="Projects portfolio of Your Name." />
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#projects">Skip to projects</a>
+
+  <header class="site-header container">
+    <div class="brand">
+      <div class="logo">YN</div>
+      <div class="meta">
+        <h1>Your Name</h1>
+        <p class="tagline">Signal Processing • Embedded • AI (replace me)</p>
+      </div>
+    </div>
+    <nav class="nav-actions">
+      <button id="themeToggle" class="btn ghost" aria-label="Toggle theme">🌓</button>
+      <a href="#about" class="btn">About</a>
+      <a href="#contact" class="btn">Contact</a>
+    </nav>
+  </header>
+
+  <section class="controls container">
+    <div class="control search">
+      <input id="searchInput" type="search" placeholder="Search projects..." aria-label="Search projects" />
+    </div>
+    <div class="control sort">
+      <label for="sortSelect">Sort</label>
+      <select id="sortSelect" aria-label="Sort projects">
+        <option value="new">Newest first</option>
+        <option value="old">Oldest first</option>
+        <option value="az">A → Z</option>
+        <option value="za">Z → A</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="tags container">
+    <div id="tagPills" class="pills" aria-label="Filter by tag"></div>
+  </section>
+
+  <main id="projects" class="container">
+    <div id="grid" class="grid" role="list"></div>
+    <div id="emptyState" class="empty hidden" role="status">No projects match your filters.</div>
+  </main>
+
+  <section id="about" class="container about">
+    <h2>About</h2>
+    <p>Write a short intro about your focus and interests. Keep it concise and recruiter-friendly.</p>
+  </section>
+
+  <section id="contact" class="container contact">
+    <h2>Contact</h2>
+    <ul>
+      <li>Email: <a href="mailto:you@example.com">you@example.com</a></li>
+      <li>LinkedIn: <a href="https://www.linkedin.com/in/your-handle" target="_blank" rel="noreferrer">linkedin.com/in/your-handle</a></li>
+      <li>GitHub: <a href="https://github.com/your-handle" target="_blank" rel="noreferrer">github.com/your-handle</a></li>
+    </ul>
+  </section>
+
+  <footer class="site-footer container">
+    <span>© <span id="year"></span> Your Name</span>
+    <span class="sep">•</span>
+    <a class="muted" href="#projects">Back to top ↑</a>
+  </footer>
+
+  <!-- Project Details Modal -->
+  <dialog id="projectModal" class="modal" aria-label="Project details">
+    <article class="modal-card">
+      <button class="modal-close" aria-label="Close">×</button>
+      <div class="modal-body">
+        <div class="modal-header">
+          <div class="modal-logo" id="modalLogo" aria-hidden="true">📦</div>
+          <div>
+            <h3 id="modalTitle"></h3>
+            <p id="modalSubtitle" class="muted"></p>
+          </div>
+        </div>
+        <div id="modalTags" class="pills compact"></div>
+        <p id="modalDesc"></p>
+        <ul id="modalHighlights" class="bullets"></ul>
+        <div class="modal-links">
+          <a id="modalGithub" class="btn" target="_blank" rel="noreferrer">GitHub</a>
+          <a id="modalDemo" class="btn ghost" target="_blank" rel="noreferrer">Live / Video</a>
+          <button id="modalCopyLink" class="btn ghost">Copy link</button>
+        </div>
+      </div>
+    </article>
+  </dialog>
+</body>
+</html>
