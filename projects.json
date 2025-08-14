@@ -1,14 +1,251 @@
 [
   {
-    "title": "Project One",
-    "description": "Short description of Project One.",
-    "github": "https://github.com/yourname/project-one"
-    
-  },
+  "id": "videx",
+  "title": "VIDEX: Intelligent Video Exploration & Summarization",
+  "subtitle": "Serverless ingest • Autoencoder compression • RAG + LLM answers",
+  "description": "Cost-aware pipeline that ingests CCTV-style videos to S3, compresses with a CNN autoencoder, generates metadata, and answers natural-language queries by surfacing clips with timestamps.",
+  "longDescription": "Secure ingest via API Gateway + Lambda into S3 (public access blocked). Practical compression using a 2D CNN autoencoder (train MSE≈0.0045, val≈0.0043) and S3 lifecycle to Glacier Deep Archive. Per-video metadata feeds MiniLM embeddings and vector search; FAISS outperformed Chroma on this dataset (index ~1.16s vs 1.75s; query ~30ms vs 62ms). An LLM synthesizes concise answers with file names and timestamps. Production path: FFmpeg in a Lambda container or ECS Fargate, with S3→SQS→Lambda/Step Functions for scale.",
+  "github": "https://github.com/DharmeshM0212/videxp",
+  "demo": "",
+  "emoji": "🎞️",
+  "date": "2025-06-30",
+  "tags": ["AWS", "Python", "S3", "Lambda", "FAISS", "ChromaDB", "LLM", "RAG", "Computer Vision"],
+  "highlights": [
+    "Secure ingest: API Gateway + Lambda → S3 (block public access, least-privilege IAM).",
+    "Compression: 2D CNN autoencoder; practical run local; MSE≈0.0045 train / 0.0043 val.",
+    "Storage policy: originals→Glacier Deep Archive; compressed kept hot for playback.",
+    "RAG: MiniLM embeddings; FAISS vs Chroma (index 1.16s vs 1.75s; query 30ms vs 62ms).",
+    "LLM answers with video names and timestamps; avoids hallucination via grounded context.",
+    "Scale path: FFmpeg in Lambda container or ECS Fargate; S3→SQS→Lambda; Step Functions."
+  ]
+}
+,
   {
-    "title": "Project Two",
-    "description": "Short description of Project Two.",
-    "github": "https://github.com/yourname/project-two"
-    
-  }
+  "id": "audio_test",
+  "title": "Audio_test: AI-Assisted Acoustic QC for Headsets",
+  "subtitle": "DSP measurements • Calibrated ML defect detection • RAG semantic search",
+  "description": "Deterministic DSP pipeline with calibrated ML and RAG for headset QC. Measures latency, frequency response, crosstalk, and distortion; applies hard guardrails and explains results with SHAP; persists decisions in semantic search for instant retrieval.",
+  "longDescription": "Factory-grade headset QC system combining DSP-based impulse response analysis with calibrated GradientBoostingClassifier and conformal abstention for reliability. Uses Farina ESS sweeps with inverse deconvolution for latency, FR, crosstalk, and distortion metrics. Sequential L→gap→R acquisition isolates channels; guardrails enforce spec PASS/FAIL with human-readable reasons. ML layer detects subtle/multi-factor defects, outputs calibrated probabilities, severities, and per-unit SHAP explanations. QC JSONs are persisted in Qdrant for semantic retrieval; optional GraphRAG links results for pattern reasoning. Benchmark compares manual vs AI accuracy, coverage, and accepted-only performance.",
+  "github": "YOUR_GITHUB_LINK",
+  "demo": "",
+  "emoji": "🎧",
+  "date": "2025-06-30",
+  "tags": ["DSP", "Python", "Audio", "Machine Learning", "GradientBoosting", "Conformal", "SHAP", "Qdrant", "RAG", "Beamforming"],
+  "highlights": [
+    "Signal design: Farina ESS (20 Hz–20 kHz @48 kHz) + inverse for clean IR and distortion isolation.",
+    "Acquisition: Sequential L→gap→R to isolate channels and measure crosstalk precisely.",
+    "Metrics: Latency, FR bands & tilt, crosstalk, nonlinearity, optional SNR proxy.",
+    "Guardrails: 5 hard rules with transparent PASS/FAIL and defect-type mapping.",
+    "ML: Calibrated GradientBoostingClassifier with conformal abstention; 3 regressors for defect severity.",
+    "Explainability: SHAP top features per unit for auditable AI decisions.",
+    "Persistence: QC JSON stored locally & in Qdrant; semantic search by defect pattern/severity.",
+    "Benchmark: Manual vs AI comparison on type and PASS/FAIL accuracy, coverage, and gain."
+  ]
+},
+{
+  "id": "network_ai_agent",
+  "title": "Network AI Agent: Self-Improving Wireless Link Optimization",
+  "subtitle": "LSTM state classification • Self-RAG retrieval • LangGraph agent loop",
+  "description": "Agentic control loop for wireless links: classifies link quality via LSTM, retrieves similar past cases with FAISS, and executes optimized actions with simulated or real radio controls—improving from experience.",
+  "longDescription": "End-to-end agent for adaptive wireless link management. Ingests streaming 15×7 windows of QoS metrics (SNR, BER, loss, jitter, throughput, trends) scaled consistently across the pipeline. LSTM classifier labels states (Good/Moderate/Poor) with ~98% accuracy, forming the perception front-end. Good states short-circuit; Moderate/Poor trigger a LangGraph loop: retrieve similar past cases from a FAISS-based Self-RAG memory, decide on an action via heuristics or budget-aware LLM consultation, execute via simulated feature deltas or real radio commands, re-evaluate, and store outcomes. Actions are normalized to 5 canonical types for determinism. Success is judged by label flips, probability gains, and QoS improvements. System logs full traces and metrics (success rate, probability gain, memory hit/win rate, LLM usage) and improves as Self-RAG grows. Designed for seamless simulation-to-hardware transition with safety guardrails.",
+  "github": "YOUR_GITHUB_LINK",
+  "demo": "",
+  "emoji": "📡",
+  "date": "2025-06-30",
+  "tags": ["LSTM", "FAISS", "Self-RAG", "LangGraph", "LLM", "Wireless Networks", "QoS", "Simulation", "Adaptive Control", "Python"],
+  "highlights": [
+    "Streaming input: 15×7 windows of QoS metrics with state-aware synthetic generation.",
+    "Consistent scaling across classification, retrieval, and simulation to avoid OOD errors.",
+    "Perception: LSTM sequence model with fixed class order, ~98% test accuracy.",
+    "Decision layer: Self-RAG with FAISS retrieval + similarity scoring; budget-aware LLM calls.",
+    "Canonical action set: QPSK+FEC, Increase Tx Power, Band Switch, Beamforming, Relay Node.",
+    "Simulation executor: state- and time-ramped feature deltas for realistic link changes.",
+    "Evaluation: triple-criteria success (label, probability, QoS deltas).",
+    "Memory updates after each step; failures stored for policy refinement.",
+    "LangGraph state machine: classify → retrieve → act → evaluate → learn.",
+    "Deployable to hardware with real radio controls and safety guardrails."
+  ]
+}
+,{
+  "id": "federated_acoustic_anomaly",
+  "title": "Federated Acoustic Anomaly Detection for Industrial Pumps",
+  "subtitle": "MFCC feature extraction • AE/VAE anomaly detection • Federated Learning • XAI • RAG",
+  "description": "Privacy-preserving anomaly detection pipeline with per-client explainability and a local GenAI assistant—trained across sites without sharing raw audio.",
+  "longDescription": "Built a privacy-preserving acoustic anomaly detection system for industrial pumps using MFCC features and unsupervised models (Autoencoder and Variational Autoencoder). Simulated multi-site deployment via Flower/FedAvg, training models locally at each client without moving data. Implemented per-client evaluation and explainability (SHAP-on-PCA heatmaps mapped to MFCC×time bins) to pinpoint anomalous frequency bands and frames. Added a RAG-powered GenAI assistant that answers technician questions from local artifacts and guides troubleshooting without data leakage. Benchmarked AE vs VAE globally and per client (AUC, recall@2σ, F1), monitored federated training round metrics, and delivered local evaluation reports, XAI outputs, and per-client vector stores for natural-language queries.",
+  "github": "YOUR_GITHUB_LINK",
+  "demo": "",
+  "emoji": "🔊",
+  "date": "2025-06-15",
+  "tags": ["Federated Learning", "Flower", "FedAvg", "Autoencoder", "Variational Autoencoder", "MFCC", "XAI", "SHAP", "PCA", "RAG", "FAISS", "LLM", "Industrial IoT", "Privacy-Preserving AI"],
+  "highlights": [
+    "MFCC extraction (~313×15 → 4695-D) with z-score scaling per client.",
+    "Unsupervised models: AE (MSE loss) and VAE (MSE + β·KL) with ~0.76–0.87 accuracy and up to ~0.90 AUC in FL runs.",
+    "Federated training via Flower/FedAvg with 3 simulated clients and per-round centralized evaluation.",
+    "Per-client evaluation: local thresholding, confusion matrix, ROC/AUC, classification reports.",
+    "Explainability: SHAP with PCA bridge to produce interpretable MFCC×time heatmaps.",
+    "Local GenAI assistant: FAISS vector store + HF MiniLM embeddings for private NL queries.",
+    "Privacy preserved—no raw audio leaves client; only model updates are shared.",
+    "Benchmarked AE vs VAE performance under heterogeneity; noted recall trade-offs.",
+    "Engineering notes on class imbalance handling, activation alignment, and personalization.",
+    "Portable architecture for industrial edge devices with offline RAG search."
+  ]
+}
+,
+{
+  "id": "mimo-isac",
+  "title": "Adaptive ISAC-MIMO for Multi-Human Tracking",
+  "subtitle": "64×MIMO • Convex power control • MUSIC + Kalman tracking",
+  "description": "Four-phase ISAC beamforming system for a 64-antenna 2.4 GHz base station in disaster zones, balancing comms SINR with survivor detection via Doppler, super-resolution AoA, and real-time beam steering.",
+  "longDescription": "Base station with 64 co-phased antennas (≤λ/2 spacing) forms up to 8 simultaneous beams under Monte-Carlo-verified SINR limits. A fixed communication beam (90°) ensures ≥10 SNR while 7 sensing beams sweep 360° in 5 s to detect motion via Doppler. Convex optimisation reallocates power based on motion rates. STFT Doppler spectrograms identify gait/breathing patterns; MUSIC AoA and Kalman filtering predict future target positions for millisecond-scale steering. System sustains robust detection and low-latency tracking in 40-path Rayleigh fading with 1 W EIRP.",
+  "github": "https://github.com/Jash-2000/MIMO_ISAC_Applications",
+  "demo": "",
+  "emoji": "📡",
+  "date": "2025-05-01",
+  "tags": ["MIMO", "ISAC", "Beamforming", "Kalman Filter", "MUSIC", "Doppler", "Convex Optimisation", "Wireless Sensing"],
+  "highlights": [
+    "64-element 2.4 GHz MIMO array; fully overlapped digital beams for comms + sensing.",
+    "Monte-Carlo beam limit search yields safe max of 8 beams without SINR loss.",
+    "5 s azimuth sweep logs Doppler-positive angles; noisy detections get lower power.",
+    "Convex optimiser allocates beam power by Doppler-derived activity weights.",
+    "Micro-Doppler analysis extracts gait/breathing signatures; peak counting estimates people.",
+    "MUSIC AoA + Kalman prediction delivers smooth, real-time beam steering."
+  ]
+}
+,{
+  "id": "convex-registration",
+  "title": "Convex Relaxations for Rigid & Non-Rigid Registration",
+  "subtitle": "SDP for rigid alignment • ADMM for non-rigid deformations • 3D vision",
+  "description": "Explored convex optimization approaches to image registration, applying Semidefinite Programming (SDP) to rigid alignment and ADMM to non-rigid deformation for robust, globally optimal transformations in 3D vision tasks.",
+  "longDescription": "Rigid and non-rigid registration are central to aligning datasets in medical imaging, robotics, and AR. This work reformulates both within a convex optimization framework: rigid alignment via Semidefinite Programming (SDP) to overcome SO(3) non-convexity and initialization sensitivity; non-rigid alignment via Alternating Direction Method of Multipliers (ADMM) to handle complex deformations while maintaining stability. Benchmarked against ICP-based methods, the convex relaxations improved robustness to local minima and convergence speed. Implementation included point cloud preprocessing, transformation estimation, and evaluation on synthetic and real-world datasets.",
+  "github": "",
+  "demo": "",
+  "emoji": "📐",
+  "date": "2025-03-21",
+  "tags": ["Convex Optimization", "Semidefinite Programming", "ADMM", "3D Vision", "Point Cloud Registration"],
+  "highlights": [
+    "Rigid registration via SDP for globally optimal rotation and translation estimation.",
+    "Non-rigid registration via ADMM for stable deformation modeling.",
+    "Overcomes ICP limitations: faster convergence and reduced sensitivity to initialization.",
+    "Applied to synthetic & real datasets in medical imaging and AR contexts.",
+    "Demonstrated robustness against local minima in both rigid and non-rigid cases."
+  ]
+}
+,{
+  "id": "rdo-image-codecs",
+  "title": "Rate–Distortion Optimization in Modern Image Codecs",
+  "subtitle": "JPEG vs JPEG XL vs AVIF • PSNR/SSIM & BD-Rate • MOS study",
+  "description": "Comparative RDO study of JPEG, JPEG XL, and AVIF using Kodak images at matched bitrates (0.1/0.3/0.5/0.7 BPP). Evaluates objective quality (PSNR, SSIM, BD-Rate/BD-PSNR), subjective MOS, and artifact patterns; shows why AVIF/JPEG XL outperform JPEG—especially at low bitrates.",
+  "longDescription": "Using the Kodak dataset (24 images, 768×512), we encoded each image with JPEG (MATLAB imwrite), JPEG XL (cjxl), and AVIF (avifenc) at 0.1/0.3/0.5/0.7 BPP and decoded to PNG for fair analysis. Objective curves (Bitrate–PSNR/SSIM) plus BD-Rate/BD-PSNR show clear efficiency gains over JPEG: JPEG XL saves ~28.5% bitrate at equal PSNR (BD-Rate 28.47%; +2.88 dB BD-PSNR) and AVIF saves ~57% (BD-Rate 57.04%; +4.42 dB BD-PSNR). A 10-rater MOS (Single Stimulus, ITU-R BT.500) aligns with the metrics: AVIF ≳ JPEG XL ≫ JPEG, with AVIF best at low BPP thanks to perceptual quantization and CABAC. Visual inspections confirm fewer blocking/ringing and better texture retention for AVIF/JPEG XL. We also compare RDO building blocks: quantization (JPEG fixed; JPEG XL adaptive; AVIF perceptual), entropy coding (JPEG RLE+Huffman; JPEG XL ANS; AVIF CABAC), and transforms (JPEG 8×8 DCT; JPEG XL VarDCT 8–32; AVIF hybrid DCT/DWT + variable blocks).",
+  "github": "YOUR_GITHUB_LINK",
+  "demo": "",
+  "emoji": "🖼️",
+  "date": "2025-06-20",
+  "tags": ["RDO", "JPEG", "JPEG XL", "AVIF", "PSNR", "SSIM", "BD-Rate", "BD-PSNR", "MOS", "CABAC", "ANS", "VarDCT", "DCT", "DWT", "Image Compression"],
+  "highlights": [
+    "Dataset & protocol: Kodak suite; encode at 0.1/0.3/0.5/0.7 BPP; decode to PNG for apples-to-apples analysis.",
+    "Objective gains: JPEG XL vs JPEG — BD-Rate 28.47% lower; +2.88 dB BD-PSNR.",
+    "Objective gains: AVIF vs JPEG — BD-Rate 57.04% lower; +4.42 dB BD-PSNR.",
+    "Subjective study: 10 raters (BT.500 Single Stimulus); AVIF best across bitrates; JPEG lags at low BPP.",
+    "Artifacts: AVIF/JPEG XL reduce blocking/banding/ringing and preserve textures better than JPEG at low BPP.",
+    "Quantization: JPEG fixed; JPEG XL adaptive; AVIF perceptual/HVS-guided.",
+    "Entropy coding: JPEG RLE+Huffman; JPEG XL ANS; AVIF CABAC for low-bitrate efficiency.",
+    "Transforms: JPEG 8×8 DCT; JPEG XL VarDCT (8–32); AVIF hybrid DCT/DWT with variable block sizes.",
+    "Tooling: MATLAB imwrite (JPEG), cjxl (JPEG XL), avifenc (AVIF); matching bitrates via binary/quality search.",
+    "Takeaway: Modern RDO (adaptive/perceptual + stronger entropy/transform choices) yields superior quality at lower bitrates."
+  ]
+}
+,{
+  "id": "image_pyramids",
+  "title": "Reconstruction Quality of Gaussian, Max-Pooling & Max-Averaging Pyramids",
+  "subtitle": "SSIM-based evaluation • Optimal σ & down/up factors • Speed vs quality trade-offs",
+  "description": "One-level image pyramids compared for reconstruction quality and efficiency. Tuned parameters (σ, interpolation, down/up factors), measured SSIM, and benchmarked time/memory to reveal when each method wins.",
+  "longDescription": "Built and analyzed 1-level Gaussian, Max-Pooling, and Max-Averaging pyramids. Using frequency-domain analysis (FFT + radial spectra) we identified σ≈1.5 as the optimal Gaussian bandwidth. Across methods, bicubic interpolation delivered the highest SSIM, and a ×2 down/upsampling factor gave the best quality–compression balance. Computational profiling showed Gaussian Pyramid is fastest/most memory-efficient, while Max-Averaging yields the best reconstruction SSIM. The study consolidates method choices (σ, interpolation, factors) and quantifies the quality–efficiency trade-offs for multirate image processing.",
+  "github": "YOUR_GITHUB_LINK",
+  "demo": "",
+  "emoji": "🔺",
+  "date": "2025-03-15",
+  "tags": ["Multirate DSP", "Image Pyramids", "Gaussian Pyramid", "Max Pooling", "SSIM", "Interpolation", "Bicubic", "Downsampling", "FFT", "Radial Spectrum", "Computational Efficiency"],
+  "highlights": [
+    "Optimal Gaussian bandwidth: σ ≈ 1.5 from FFT & radial frequency analysis.",
+    "Bicubic interpolation consistently achieved the highest SSIM across methods.",
+    "Down/upsampling factor of 2 delivered the best reconstruction quality.",
+    "Quality vs speed: Max-Averaging best SSIM; Gaussian Pyramid fastest/most memory-efficient.",
+    "Reported concrete timings/memory (example config): Gaussian down 0.0023s / up 0.0028s / ~11.42MB; Max-Pooling down 0.0271s / up 0.0009s / ~11.45MB; Max-Averaging down 0.0628s / up 0.0008s / ~11.64MB.",
+    "Evaluation images: Lena & UCSB (grayscale) for consistent SSIM comparisons."
+  ]
+}
+,{
+  "id": "fire_vital",
+  "title": "Fire Vital: Real-Time Firefighter Health Monitoring & Command Center Collaboration",
+  "subtitle": "MAX30102 vitals • LoRaWAN + TTN • MQTT web dashboards • Piezo energy harvesting",
+  "description": "End-to-end system that senses SpO₂, heart rate, and temperature on-person, streams via LoRaWAN to The Things Network, and visualizes live trends in a secured web UI using MQTT—powered by a piezoelectric harvester for low-power field use.",
+  "longDescription": "Wearable node (Arduino Uno + MAX30102) acquires vitals and transmits over LoRa (shield + gateway) to TTN. Using TTN’s MQTT integration, a password-protected website subscribes to live payloads and renders time-stamped graphs for incident commanders. A piezoelectric generator harvests mechanical energy to supplement power. Field tests measured HR/SpO₂/temperature trends for five users, end-to-end latency of ~8–10 s from node to cloud, and a working range up to ≥2 km outdoors (shorter indoors), with LOS projections up to ~10–15 km. The report documents block diagrams, sensor/I²C bring-up, TTN console traces, MQTT subscriptions, and UI pages (home/about/login/visualization).",
+  "github": "YOUR_GITHUB_LINK",
+  "demo": "",
+  "emoji": "🚒",
+  "date": "2023-12-01",
+  "tags": ["LoRaWAN", "TTN", "MQTT", "IoT", "Arduino", "MAX30102", "Edge Sensing", "Energy Harvesting", "Data Visualization", "Public Safety"],
+  "highlights": [
+    "Sensing: MAX30102 measures heart rate, SpO₂, and temperature; I²C scanner verifies bus address.",
+    "Connectivity: LoRa shield → gateway → TTN; MQTT broker integration fans out live data to subscribers.",
+    "UI: Password-protected website renders real-time graphs of HR/SpO₂/temperature with timestamps.",
+    "Energy: Piezoelectric generator harvests mechanical stress to supplement power for the node.",
+    "Latency: End-to-end cloud arrival typically ~8–10 s (node → gateway → TTN → subscriber).",
+    "Range: Outdoor links ≥2 km in tests; shorter indoors; LOS projections ~10 km (urban) to ~15 km (rural).",
+    "Observed vitals (5 users): HR ≈ 65–83 BPM, SpO₂ ≈ 94–98%, Temperature ≈ 33–37 °C.",
+    "Artifacts: TTN console payloads, MQTT subscription logs, and web UI pages (home/about/login/plots) captured.",
+    "Comparative note: Versus prior work, Fire Vital emphasizes low-power operation and simple web-based situational awareness."
+  ]
+}
+,{
+  "id": "hydro_watch",
+  "title": "Hydro Watch: Real-Time Water Quality Analytics & Filtration",
+  "subtitle": "LoRaWAN sensing • XGBoost potability • MQTT dashboards • Auto filtration",
+  "description": "End-to-end IoT system that senses pH/TDS/turbidity/temperature, streams via LoRaWAN to TTN, visualizes live metrics over MQTT, predicts potability with XGBoost, and triggers a multi-stage filter automatically.",
+  "longDescription": "Built a field-ready water-quality pipeline: Arduino-class end node (pH, TDS, turbidity, DS18B20) → LoRa shield → gateway → The Things Network (TTN). A password-protected web app subscribes to TTN’s MQTT to render live gauges/plots and show potability. Five ML models were evaluated; XGBoost was integrated for online potability prediction. An alert path (WhatsApp) notifies on non-potable readings; an ESP32 listens via WebSocket and drives a pump through a layered filter (gravel, fine sand, activated charcoal, CaCO₃, zeolite, kaolin, cotton). Prototype achieved ~8–10 s cloud latency, outdoor range ≥2 km (LOS projections ~10–15 km), and a reported XGBoost accuracy of ~99.9% on the project dataset. Solar panels can power the node for low-infrastructure deployments.",
+  "github": "YOUR_GITHUB_LINK",
+  "demo": "",
+  "emoji": "💧",
+  "date": "2024-05-01",
+  "tags": ["LoRaWAN", "TTN", "MQTT", "IoT", "Arduino", "ESP32", "XGBoost", "Water Quality", "WebSocket", "Energy Harvesting", "Filtration"],
+  "highlights": [
+    "Sensors: pH, TDS, turbidity, DS18B20 temperature on Arduino-class end node.",
+    "Connectivity: LoRa shield → gateway → TTN; web UI subscribes via MQTT with login protection.",
+    "Live visualization: real-time meter gauges and trend plots; potability page auto-refresh.",
+    "ML: evaluated 5 models; XGBoost selected (reported ~99.9% accuracy on dataset) for potability.",
+    "Alerts: non-potable → WhatsApp notification; WebSocket to ESP32 triggers 2-minute filtration.",
+    "Filter stack: gravel → fine sand → activated charcoal → CaCO₃ → zeolite → kaolin → cotton.",
+    "Latency & range: ~8–10 s end-to-end; observed outdoor range ≥2 km; LOS projections ~10–15 km.",
+    "Ops details: I²C scanner for sensor bring-up; TTN MQTT integration; secured local web server.",
+    "Energy: solar panels used to power sensors/microcontroller in prototype.",
+    "Artifacts: TTN payload logs, MQTT traces, website pages (home/about/login/visualization), range table and model performance table."
+  ]
+}
+,{
+  "id": "crime_classification",
+  "title": "Advanced Crime Classification with Deep Learning",
+  "subtitle": "Multimodal CNN/RNN • Real-time monitoring • Hotspot mapping & APIs",
+  "description": "End-to-end, multimodal system that classifies crimes from text, images/video, and audio; streams alerts in real time; and maps hotspots using geolocation APIs for proactive public-safety analytics.",
+  "longDescription": "Built a scalable pipeline that ingests CCTV frames/video, police-report text, and audio snippets, standardizes them (frame extraction, text normalization, noise reduction), and classifies incidents using deep learning (CNNs for imagery/video frames, RNN/Transformer-based models for text, optional audio embeddings). A streaming service performs real-time inference and pushes alerts to a dashboard. Geolocation metadata is indexed to render live hotspot maps and time-of-day trends. The platform exposes a REST/Graph API for integration with existing systems, and supports cloud deployment (AWS/GCP) for horizontal scale. Emphasis is placed on privacy/ethics (PII scrubbing, access controls), explainability (feature/attention visualizations), and robust evaluation (precision/recall/F1 by class, latency budgets).",
+  "github": "YOUR_GITHUB_LINK",
+  "demo": "",
+  "emoji": "🕵️‍♂️",
+  "date": "2025-06-30",
+  "tags": ["Multimodal", "Computer Vision", "NLP", "Audio ML", "CNN", "RNN", "Transformer", "TensorFlow", "PyTorch", "Streaming", "Geolocation", "API", "AWS", "GCP", "Real-time Analytics", "Predictive Modeling", "Explainability", "Privacy"],
+  "highlights": [
+    "Multimodal ingest: text (reports), images/video (CCTV), and audio; unified preprocessing.",
+    "Models: CNNs for frames/video; RNN/Transformer for text; optional audio embeddings.",
+    "Real-time pipeline: streaming inference with alerting and latency budgets for live use.",
+    "Hotspot mapping: geolocation integration to visualize risk areas and temporal patterns.",
+    "Predictive analytics: trend detection for proactive resource planning.",
+    "APIs: REST/Graph endpoints for integrations; role-based access to outputs.",
+    "Cloud-native: deployable on AWS/GCP with autoscaling and message queues.",
+    "Evaluation: per-class precision/recall/F1, ROC/PR curves, confusion matrices.",
+    "Explainability: attention/grad-CAM style visuals and textual rationales for decisions.",
+    "Governance: PII scrubbing, audit logs, and policy guardrails for ethical compliance."
+  ]
+}
+
+
+
 ]
