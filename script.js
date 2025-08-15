@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const year = $("#year");
   const themeToggle = $("#themeToggle");
 
-  // Modal elements
+  
   const modal = $("#projectModal");
   const modalTitle = $("#modalTitle");
   const modalSubtitle = $("#modalSubtitle");
@@ -23,17 +23,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   year.textContent = new Date().getFullYear();
 
-  // THEME
+  
   const savedTheme = localStorage.getItem("theme");
   if (savedTheme) document.documentElement.setAttribute("data-theme", savedTheme);
-  themeToggle.addEventListener("click", () => {
+  themeToggle?.addEventListener("click", () => {
     const cur = document.documentElement.getAttribute("data-theme") || "dark";
     const next = cur === "dark" ? "light" : "dark";
     document.documentElement.setAttribute("data-theme", next);
     localStorage.setItem("theme", next);
   });
 
-  // LOAD PROJECTS
+  
   let projects = [];
   try {
     const res = await fetch("projects.json", { cache: "no-store" });
@@ -42,12 +42,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("Failed to load projects.json", err);
   }
 
-  // State
+  
   let search = "";
   let selectedTags = new Set();
-  let sortMode = "new"; // new | old | az | za
+  let sortMode = "new";
 
-  // Build tag list
+  
   const allTags = Array.from(
     new Set(projects.flatMap(p => Array.isArray(p.tags) ? p.tags : []))
   ).sort((a, b) => a.localeCompare(b));
@@ -68,11 +68,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Filter + Sort
+  
   function filterSort(list) {
     let out = list;
-
-    // Search
     if (search.trim()) {
       const q = search.toLowerCase();
       out = out.filter(p => {
@@ -83,8 +81,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         return hay.includes(q);
       });
     }
-
-    // Tags
     if (selectedTags.size) {
       out = out.filter(p => {
         const t = new Set(p.tags || []);
@@ -92,31 +88,24 @@ document.addEventListener("DOMContentLoaded", async () => {
         return true;
       });
     }
-
-    // Sort
     const byTitle = (a, b) => a.title.localeCompare(b.title);
     const byDate = (a, b) => {
-      // Expect ISO date string (YYYY-MM-DD). Fallback to title if missing.
       if (!a.date && !b.date) return byTitle(a, b);
       return (new Date(b.date || 0)) - (new Date(a.date || 0));
     };
-
     if (sortMode === "new") out = out.slice().sort(byDate);
     if (sortMode === "old") out = out.slice().sort((a, b) => -byDate(a, b));
     if (sortMode === "az") out = out.slice().sort(byTitle);
     if (sortMode === "za") out = out.slice().sort((a, b) => -byTitle(a, b));
-
     return out;
   }
 
   function projectEmoji(p) {
-    // Optional emoji field; else derive from first letter
     if (p.emoji) return p.emoji;
     const ch = (p.title || "?").trim().slice(0,1).toUpperCase();
     return ch.match(/[A-Z0-9]/) ? ch : "📦";
-    }
+  }
 
-  // Render grid
   function render(list) {
     if (!list.length) {
       grid.innerHTML = "";
@@ -144,7 +133,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       </article>
     `).join("");
 
-    // Attach handlers
     grid.querySelectorAll("[data-open]").forEach(btn => {
       btn.addEventListener("click", () => {
         const id = btn.getAttribute("data-open");
@@ -154,7 +142,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Modal logic
+  
   function openModal(p) {
     modalTitle.textContent = p.title || "Untitled Project";
     modalSubtitle.textContent = p.subtitle || "";
@@ -172,7 +160,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       modalDemo.removeAttribute("href");
     }
 
-    // Deep link like #p=project-id
     const url = new URL(window.location.href);
     url.hash = `p=${encodeURIComponent(p.id || "")}`;
     history.replaceState(null, "", url.toString());
@@ -182,7 +169,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function closeModal() {
     modal.close();
-    // Remove deep link on close
     const url = new URL(window.location.href);
     if (url.hash.startsWith("#p=")) url.hash = "";
     history.replaceState(null, "", url.toString());
@@ -207,22 +193,69 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch {}
   });
 
-  // Controls
+  
   searchInput.addEventListener("input", () => { search = searchInput.value; update(); });
   sortSelect.addEventListener("change", () => { sortMode = sortSelect.value; update(); });
 
-  function update() {
-    render(filterSort(projects));
-  }
+  function update() { render(filterSort(projects)); }
 
   renderTags();
   update();
 
-  // Open from deep-link if present (#p=ID)
   const hash = new URL(window.location.href).hash;
   if (hash.startsWith("#p=")) {
     const id = decodeURIComponent(hash.slice(3));
     const proj = projects.find(x => String(x.id) === String(id));
     if (proj) openModal(proj);
   }
+
+  
+  const certList = $("#certList");
+  const pubList = $("#pubList");
+  const certEmpty = $("#certEmpty");
+  const pubEmpty = $("#pubEmpty");
+
+  async function loadJSON(url) {
+    try {
+      const r = await fetch(url, { cache: "no-store" });
+      if (!r.ok) throw new Error("Fetch failed");
+      return await r.json();
+    } catch (e) {
+      console.warn("Could not load", url, e);
+      return null;
+    }
+  }
+
+  function renderCerts(arr) {
+    if (!certList || !Array.isArray(arr)) return;
+    if (!arr.length) { certEmpty?.classList.remove("hidden"); return; }
+    certEmpty?.classList.add("hidden");
+    certList.innerHTML = arr.map(c => `
+      <li>
+        <div class="row">
+          <strong>${c.name || ""}</strong>
+          ${c.shortDescription ? `<span class="meta">· ${c.shortDescription}</span>` : ""}
+          ${c.link ? `<a href="${c.link}" target="_blank" rel="noreferrer">Verify</a>` : ""}
+        </div>
+      </li>
+    `).join("");
+  }
+
+  function renderPubs(arr) {
+    if (!pubList || !Array.isArray(arr)) return;
+    if (!arr.length) { pubEmpty?.classList.remove("hidden"); return; }
+    pubEmpty?.classList.add("hidden");
+    pubList.innerHTML = arr.map(p => `
+      <li>
+        <div class="row">
+          <strong>${p.name || ""}</strong>
+          ${p.venue ? `<span class="meta">· ${p.venue}</span>` : ""}
+          ${p.link ? `<a href="${p.link}" target="_blank" rel="noreferrer">Link</a>` : ""}
+        </div>
+      </li>
+    `).join("");
+  }
+
+  loadJSON("certifications.json").then(data => data && renderCerts(data));
+  loadJSON("publications.json").then(data => data && renderPubs(data));
 });
