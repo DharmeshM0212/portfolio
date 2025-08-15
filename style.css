@@ -1,4 +1,3 @@
-/* ===== Base + Theme ===== */
 :root {
   --bg: #0b0d10;
   --panel: #0f141a;
@@ -54,7 +53,6 @@ a:hover { text-decoration: underline; }
   padding: 8px 12px; border-radius: 6px; outline: 2px solid var(--focus);
 }
 
-/* ===== Header ===== */
 .site-header {
   display: flex; align-items: center; justify-content: space-between;
   gap: 12px; padding-top: 20px;
@@ -69,7 +67,6 @@ a:hover { text-decoration: underline; }
 .tagline { color: var(--muted); font-size: .95rem; }
 .nav-actions { display: flex; gap: 8px; }
 
-/* ===== Controls ===== */
 .controls {
   display: grid; grid-template-columns: 1fr auto; gap: 12px;
   margin-top: 10px; align-items: center;
@@ -81,7 +78,6 @@ a:hover { text-decoration: underline; }
 }
 .control label { margin-right: 8px; color: var(--muted); }
 
-/* ===== Pills / Tags ===== */
 .pills { display: flex; flex-wrap: wrap; gap: 8px; }
 .pills .pill {
   padding: 6px 10px; border-radius: 999px; cursor: pointer;
@@ -90,7 +86,6 @@ a:hover { text-decoration: underline; }
 }
 .pills .pill.active { outline: 2px solid var(--brand); }
 
-/* ===== Grid + Cards ===== */
 .grid {
   margin-top: 14px;
   display: grid; gap: 16px;
@@ -115,7 +110,6 @@ a:hover { text-decoration: underline; }
 .card .actions { display: flex; gap: 8px; margin-top: 6px; }
 .card .actions .btn { flex: 1; text-align: center; }
 
-/* ===== Buttons ===== */
 .btn {
   background: var(--panel); color: var(--text);
   border: 1px solid var(--border); border-radius: 8px;
@@ -128,45 +122,45 @@ a:hover { text-decoration: underline; }
 }
 .btn.ghost { background: transparent; }
 
-/* ===== Empty ===== */
 .empty {
   margin: 30px 0; padding: 18px;
   border: 1px dashed var(--border); border-radius: 12px; text-align: center;
 }
 .hidden { display: none; }
 
-/* ===== Sections ===== */
-.about, .contact { margin-top: 28px; }
-.contact ul { list-style: none; padding: 0; display: grid; gap: 6px; }
+.about, .contact, .section { margin-top: 28px; }
 
-/* ===== Footer ===== */
+.resume-list { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 10px; }
+.resume-list li {
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.resume-list .row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
+.resume-list .meta { color: var(--muted); }
+.resume-list .submeta { color: var(--muted); margin-top: 4px; }
+.resume-list a { margin-left: auto; }
+
 .site-footer {
   margin: 34px 0 24px; display: flex; gap: 8px; align-items: center; color: var(--muted);
 }
 .sep { opacity: .6; }
 .muted { color: var(--muted); }
 
-/* ===== Modal ===== */
-.modal::backdrop { background: rgba(0,0,0,.6); }
-.modal { border: none; border-radius: 12px; padding: 0; max-width: 720px; width: 96vw; }
-.modal-card {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: 12px; padding: 16px;
+.modal-content {
+  background-color: #1e1e1e;
+  color: #e6e6e6;
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
-.modal-close {
-  float: right; background: transparent; border: none; color: var(--text);
-  font-size: 24px; cursor: pointer;
-}
-.modal-header { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
-.modal-logo {
-  width: 44px; height: 44px; border-radius: 10px; display: grid; place-items: center;
-  background: linear-gradient(135deg, rgba(14,165,233,.15), rgba(34,211,238,.15));
-  font-size: 22px;
-}
-.bullets { margin: 10px 0; padding-left: 18px; }
-.bullets li { margin: 6px 0; }
+.modal-content h2 { color: #ffffff; font-weight: 600; }
+.modal-content p, .modal-content li { color: #cccccc; }
+.modal-content ul { margin-top: 1em; padding-left: 1.5em; }
+.modal-content li { margin-bottom: 0.5em; }
+.modal-content a { color: #4da3ff; text-decoration: none; }
+.modal-content a:hover { text-decoration: underline; }
 
-/* ===== Responsive ===== */
 @media (max-width: 700px) {
   .controls { grid-template-columns: 1fr; }
   .site-header { flex-direction: column; align-items: flex-start; gap: 10px; }
