@@ -1,0 +1,53 @@
+[ 
+  {
+    "name": "AWS Generative AI Applications",
+    "shortDescription": "Bedrock, prompt engineering, and GenAI solution architecture (Jul 2025).",
+    "link": "https://drive.google.com/file/d/1DSUm7BE-xW-kifiTNRKYLu6XQySlk4cV/view?usp=sharing"
+  },
+  {
+    "name": "AWS Cloud Solutions Architect",
+    "shortDescription": "VPC/IAM/S3/EC2, scalable architectures, cost optimization (Jun 2025).",
+    "link": "https://drive.google.com/file/d/11RlaE6KPE6VIpEv1KHECvrL2H0AzdT3w/view?usp=sharing"
+  },
+  {
+    "name": "Introduction to Network Automation",
+    "shortDescription": "APIs, Ansible, NetDevOps, model-driven programmability (Jul 2025).",
+    "link": "https://drive.google.com/file/d/1Nm9iH-3eQTM7iLOC-65qCo7Pv4t_pVkS/view?usp=sharing"
+  },
+  {
+    "name": "Embedded Software Engineer (C)",
+    "shortDescription": "ARM Cortex, Embedded C, UART/SPI/I2C (Jun 2025).",
+    "link": "https://drive.google.com/file/d/1VD3pl5dsIOEHs6nDZgLQEgNgqbV1Dkvr/view?usp=sharing"
+  },
+  {
+    "name": "IBM GenAI & Agentic AI",
+    "shortDescription": "RAG, vector databases, LangChain/LangGraph (Jul 2025).",
+    "link": "https://drive.google.com/file/d/1LnkrSf6dNbO-uva5flR3rbGuE5Pt1BeL/view?usp=sharing"
+  }    
+,
+  {
+    "name": "Neural Networks and Deep Learning",
+    "shortDescription": "Authorized by DeepLearning.AI (Coursera specialization verification).",
+    "link": "https://drive.google.com/file/d/1_9qiyIaHauuGNWtxV4LOkJ9V3jnT-IsD/view?usp=sharing"
+  },
+  {
+    "name": "IBM CrimeVision Project Certification",
+    "shortDescription": "Advanced Crime Classification with Deep Learning.",
+    "link": "https://drive.google.com/file/d/IBM_CrimeVision_Cert"
+  },
+  {
+    "name": "Embedded Security CTF 2022",
+    "shortDescription": "Ranked 105/600 (IITM, DSCI National CTF).",
+    "link": "https://drive.google.com/file/d/1OU0-6ky3gpBt5lDDQjdX_hg45DQUe3AA/view?usp=sharing"
+  },
+  {
+    "name": "Data Science and Machine Learning (Infosys)",
+    "shortDescription": "Completed advanced modules in machine learning and data science.",
+    "link": "https://drive.google.com/file/d/1gRyAJyFKzdsiKgaEYIg95voBvFZLSHPF/view?usp=sharing"
+  },
+  {
+    "name": "Skyfi Labs Certification",
+    "shortDescription": "Developed a surveillance robot using Raspberry Pi.",
+    "link": "https://drive.google.com/file/d/1OSreCqZ8Q4PZxvLvnyGkIJJT37p2lPfD/view?usp=sharing"
+  }
+]
