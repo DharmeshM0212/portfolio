@@ -250,7 +250,7 @@
 "subtitle": "FreeRTOS tasks • Q15 FIR low-pass • Adaptive jitter buffer • Real-time metrics",
 "description": "Embedded-style DSP project that runs entirely in software: a bursty producer feeds a ring buffer; a FreeRTOS DSP task applies a Q15 FIR low-pass; and a tuner keeps latency low and underruns at zero under CPU/arrival jitter.",
 "longDescription": "JitterTuner models a real firmware audio/comm pipeline using FreeRTOS (Windows/MingW port). Data flows in 256-sample frames at 48 kHz through an O(1) ring buffer (capacity 8). A Producer task synthesizes a test signal (1 kHz passband + 10 kHz stopband + noise) with bursty arrivals; a DSP task consumes frames, injects CPU-time jitter, applies a 63-tap Q15 FIR low-pass (Hamming-windowed, unity-gain normalized), and measures spectral amplitudes via running sine/cosine projections. Two lightweight controllers stabilize the system: (1) a prefill tuner that sets the startup cushion (frames to accumulate before playback) using windowed statistics, and (2) a dynamic occupancy tuner that pops an extra frame when the buffer runs high or skips a slice when it runs low, keeping latency near a target. The project instruments pushes/pops/drops/underruns, occupancy (avg and percentiles), CPU time per frame, deadline overruns, and frequency response deltas—yielding a complete, reproducible demonstration of fixed-point DSP, RTOS tasking, and adaptive jitter control without any hardware.",
-"github": "YOUR_GITHUB_LINK",
+"github": "https://github.com/DharmeshM0212/JitterTuner",
 "demo": "",
 "emoji": "🎛️",
 "date": "2025-08-19",
@@ -274,6 +274,7 @@
 
 
 ]
+
 
 
 
