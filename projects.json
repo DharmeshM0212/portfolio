@@ -244,10 +244,36 @@
     "Explainability: attention/grad-CAM style visuals and textual rationales for decisions.",
     "Governance: PII scrubbing, audit logs, and policy guardrails for ethical compliance."
   ]
+},{
+"id": "jittertuner",
+"title": "JitterTuner: Adaptive Jitter-Resilient DSP Pipeline (Software-Only)",
+"subtitle": "FreeRTOS tasks • Q15 FIR low-pass • Adaptive jitter buffer • Real-time metrics",
+"description": "Embedded-style DSP project that runs entirely in software: a bursty producer feeds a ring buffer; a FreeRTOS DSP task applies a Q15 FIR low-pass; and a tuner keeps latency low and underruns at zero under CPU/arrival jitter.",
+"longDescription": "JitterTuner models a real firmware audio/comm pipeline using FreeRTOS (Windows/MingW port). Data flows in 256-sample frames at 48 kHz through an O(1) ring buffer (capacity 8). A Producer task synthesizes a test signal (1 kHz passband + 10 kHz stopband + noise) with bursty arrivals; a DSP task consumes frames, injects CPU-time jitter, applies a 63-tap Q15 FIR low-pass (Hamming-windowed, unity-gain normalized), and measures spectral amplitudes via running sine/cosine projections. Two lightweight controllers stabilize the system: (1) a prefill tuner that sets the startup cushion (frames to accumulate before playback) using windowed statistics, and (2) a dynamic occupancy tuner that pops an extra frame when the buffer runs high or skips a slice when it runs low, keeping latency near a target. The project instruments pushes/pops/drops/underruns, occupancy (avg and percentiles), CPU time per frame, deadline overruns, and frequency response deltas—yielding a complete, reproducible demonstration of fixed-point DSP, RTOS tasking, and adaptive jitter control without any hardware.",
+"github": "YOUR_GITHUB_LINK",
+"demo": "",
+"emoji": "🎛️",
+"date": "2025-08-19",
+"tags": ["Embedded", "DSP", "Fixed-point", "Q15", "FIR", "FreeRTOS", "RTOS", "Ring Buffer", "Jitter Buffer", "Real-time", "C", "CMake", "MinGW", "Windows", "Latency", "Signal Processing", "Metrics"],
+"highlights": [
+"Architecture: Producer → RingBuffer (CAP=8) → DSP (Q15 FIR) with FreeRTOS tasks and a mutex for shared state.",
+"Filter: 63-tap Hamming low-pass, designed in float then quantized to Q15; linear-phase and unity DC gain.",
+"Controllers: prefill tuner (windowed stats) + dynamic occupancy tuner (extra pop / throttle) to balance latency vs. safety.",
+"Timing model: 256-sample frames at 48 kHz (~5.33 ms); DSP task runs at 5 ms with injected CPU jitter to stress deadlines.",
+"Spectral verification: running single-bin projections at 1 kHz and 10 kHz to report passband loss and stopband attenuation.",
+"Observability: pushes/pops/drops/underruns, occupancy histogram and P50/P95/P99, CPU time per frame, deadline-miss histogram.",
+"Result (this run): 441 pushes, 433 pops, 0 drops, 0 underruns; prefill adapted 3→4→3→2→1 as conditions stabilized.",
+"Latency: avg occupancy 5.56 frames → ~29.64 ms average latency; percentile occupancy P50/P95/P99 = 6 frames (~32 ms).",
+"Dynamic actions: 36 extra pops and 2 throttles held the buffer near target (TARGET_OCC=4) without glitches.",
+"Frequency response: 1 kHz passband loss ≈ −0.17 dB; 10 kHz stopband attenuation ≈ −66.9 dB (fixed-point runtime).",
+"CPU budget: ~105 µs average (≈2% of 5.33 ms) and ~523 µs max (≈9.8%); 0 deadline overruns.",
+"Software-only: no hardware required; portable to MCU targets by swapping the FreeRTOS port and I/O layer."
+]
 }
 
 
 
 ]
+
 
 
