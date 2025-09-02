@@ -127,3 +127,17 @@ a:hover{text-decoration:underline}
 #toggleTags::after { content:" ⌄"; }
 #toggleTags[aria-expanded="true"]::after { content:" ⌃"; }
 
+/* Home: Latest projects list */
+.latest-list{
+  list-style:none; padding:0; margin:8px 0 0;
+  display:grid; gap:8px;
+}
+.latest-list li{
+  display:flex; align-items:baseline; justify-content:space-between;
+  gap:12px; padding:10px 12px; border:1px solid var(--border);
+  background:var(--card); border-radius:10px;
+}
+.latest-list a{ font-weight:600; text-decoration:none; color:var(--text); }
+.latest-list a:hover{ text-decoration:underline; color:var(--brand); }
+.latest-date{ color:var(--muted); font-size:.9rem; white-space:nowrap; }
+
