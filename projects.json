@@ -269,11 +269,53 @@
 "CPU budget: ~105 µs average (≈2% of 5.33 ms) and ~523 µs max (≈9.8%); 0 deadline overruns.",
 "Software-only: no hardware required; portable to MCU targets by swapping the FreeRTOS port and I/O layer."
 ]
+},{
+  "id": "urllc_in_the_loop",
+  "title": "URLLC-in-the-Loop — TDMA + FEC",
+  "subtitle": "TDMA scheduling • k-of-n erasure coding • Dual-path diversity • GE burst model • SLO sweep",
+  "description": "A software-only URLLC stack for industrial STOP decisions that co-designs deterministic scheduling (TDMA), k-of-n FEC, and optional dual-path diversity to hit ≥99.9% on-time with P99 ≤ 20 ms at minimal bandwidth overhead.",
+  "longDescription": "This project models a real-time control link where an endpoint detector must deliver tiny STOP messages within strict deadlines. A 20 Hz producer emits decisions; a scheduler sends either best-effort (subject to heavy-tailed queueing jitter) or via TDMA micro-slots (nearly deterministic). The channel adds delay/loss using either an i.i.d. model or a Gilbert–Elliott (GE) burst model; a k-of-n erasure decoder reconstructs when any k of n chunks arrive; and an optional dual-path mode splits chunks across two independent links. The framework sweeps scheduler mode, path count, and (n,k) to automatically choose the lowest-overhead design meeting SLOs (≥99.9% on-time, P99 ≤ 20 ms), and includes an end-to-end demo where a lightweight DSP endpoint detector (two-window mean + hysteresis on synthetic 1 kHz traces) produces decisions so results map to real control behavior. Artifacts include CSV metrics, P99-vs-overhead plots, and a concise summary of the recommended configuration.",
+  "github": "YOUR_GITHUB_LINK",
+  "demo": "",
+  "emoji": "🛰️",
+  "date": "2025-09-01",
+  "tags": [
+    "Networking",
+    "URLLC",
+    "Real-time",
+    "TDMA",
+    "FEC",
+    "Erasure Coding",
+    "Gilbert–Elliott",
+    "Dual-Path",
+    "Industrial Control",
+    "SLO",
+    "Latency",
+    "Reliability",
+    "Python",
+    "Simulation",
+    "DSP"
+  ],
+  "highlights": [
+    "Architecture: Producer (20 Hz) → FEC(k-of-n) → Scheduler (best-effort or TDMA) → Channel(s) (i.i.d. or GE bursts; 1–2 paths) → k-of-n Decoder → Metrics.",
+    "SLOs: optimize for ≥99.9% on-time delivery with P99 latency ≤ 20 ms while minimizing bandwidth overhead (≈ n/k).",
+    "Baseline (IID, best-effort, n=1,k=1): ~98.17% on-time; P99 ≈ 18.24 ms over 1,200 msgs (60 s at 20 Hz).",
+    "TDMA (no FEC): tail collapse with P99 ≈ 5.12 ms (vs 18.24 ms best-effort) under the same IID channel.",
+    "FEC on IID: TDMA (n=3,k=1) → success=1.000, P99 ≈ 4.66 ms (overhead 3.0×); TDMA (n=4,k=2) → success=1.000, P99 ≈ 5.57 ms (overhead 2.0×).",
+    "GE burst model + diversity: TDMA (paths=1, n=3,k=1) → success=1.000, P99 ≈ 4.70 ms; TDMA (paths=2, n=3,k=1) → success=1.000, P99 ≈ 4.71 ms; TDMA (paths=2, n=4,k=2) → success=1.000, P99 ≈ 5.83 ms.",
+    "SLO-constrained sweep: 20 feasible configs found; recommended minimal-overhead design = TDMA, 1 path, (n=5,k=3) → success=1.000, P99 ≈ 6.89 ms at only 1.67× overhead.",
+    "Process impact proxy: reports late-rate and excess-lateness averages; plots P99-vs-overhead and overshoot-reduction vs overhead.",
+    "End-to-end demo (DSP detector + network, 50 ms budget): baseline net ≈ 90.0% E2E success (net P99 ≈ 17.9 ms); robust net (TDMA, 2 paths, n=4,k=2) ≈ 93.1% E2E success (net P99 ≈ 5.92 ms).",
+    "Knobs: toughen bursts (GE loss_bad ↑, p_bg ↓), enable dual-path, and tune (n,k) to trade overhead vs reliability; speed up detector via smaller frame/hysteresis/threshold.",
+    "Outputs: CSVs for each experiment, summary.json, and PNG plots (P99 vs overhead, overshoot reduction). Run `python run_all.py` for the full pipeline or `python quick_start.py` for a compact sweep + demo.",
+    "Resume-ready impact: met ≥99.9% on-time with ≤6.9 ms P99 at ≤1.67× overhead; SLO-driven design search; validated end-to-end with a working DSP producer."
+  ]
 }
 
 
 
 ]
+
 
 
 
