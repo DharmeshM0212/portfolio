@@ -275,7 +275,7 @@
   "subtitle": "TDMA scheduling • k-of-n erasure coding • Dual-path diversity • GE burst model • SLO sweep",
   "description": "A software-only URLLC stack for industrial STOP decisions that co-designs deterministic scheduling (TDMA), k-of-n FEC, and optional dual-path diversity to hit ≥99.9% on-time with P99 ≤ 20 ms at minimal bandwidth overhead.",
   "longDescription": "This project models a real-time control link where an endpoint detector must deliver tiny STOP messages within strict deadlines. A 20 Hz producer emits decisions; a scheduler sends either best-effort (subject to heavy-tailed queueing jitter) or via TDMA micro-slots (nearly deterministic). The channel adds delay/loss using either an i.i.d. model or a Gilbert–Elliott (GE) burst model; a k-of-n erasure decoder reconstructs when any k of n chunks arrive; and an optional dual-path mode splits chunks across two independent links. The framework sweeps scheduler mode, path count, and (n,k) to automatically choose the lowest-overhead design meeting SLOs (≥99.9% on-time, P99 ≤ 20 ms), and includes an end-to-end demo where a lightweight DSP endpoint detector (two-window mean + hysteresis on synthetic 1 kHz traces) produces decisions so results map to real control behavior. Artifacts include CSV metrics, P99-vs-overhead plots, and a concise summary of the recommended configuration.",
-  "github": "YOUR_GITHUB_LINK",
+  "github": "https://github.com/DharmeshM0212/URLLC",
   "demo": "",
   "emoji": "🛰️",
   "date": "2025-09-01",
@@ -315,6 +315,7 @@
 
 
 ]
+
 
 
 
