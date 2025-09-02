@@ -1,13 +1,13 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const $ = (sel) => document.querySelector(sel);
 
-  
+  // Common refs
   const themeToggle = $("#themeToggle");
   const year = $("#year");
 
   if (year) year.textContent = new Date().getFullYear();
 
-  
+  // THEME — default light, persist choice
   const setTheme = (t) => {
     document.documentElement.setAttribute("data-theme", t);
     localStorage.setItem("theme", t);
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     setTheme(cur === "light" ? "dark" : "light");
   });
 
-  
+  // Helper: safe fetch JSON
   async function loadJSON(url) {
     try {
       const r = await fetch(url, { cache: "no-store" });
@@ -34,7 +34,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
- 
+  // ======= HOME PAGE: Latest projects =======
+  const latestList = document.querySelector("#latestList");
+  if (latestList){
+    const projects = await loadJSON("projects.json") || [];
+    const items = projects
+      .filter(p => p.date) // only dated projects
+      .sort((a,b) => (new Date(b.date)) - (new Date(a.date)))
+      .slice(0, 5); // show top 5
+
+    const fmt = (iso) => {
+      try {
+        return new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+      } catch { return iso; }
+    };
+
+    latestList.innerHTML = items.length ? items.map(p => `
+      <li>
+        <a href="projects.html#p=${encodeURIComponent(p.id)}">${p.title || "Untitled Project"}</a>
+        <span class="latest-date">${fmt(p.date)}</span>
+      </li>
+    `).join("") : `<li class="muted">No recent projects yet.</li>`;
+  }
+
+  // ======= PROJECTS PAGE WIDGETS =======
   const grid = $("#grid");
   if (grid) {
     const featuredGrid = $("#featuredGrid");
@@ -209,10 +232,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (proj) openModal(proj);
     }
 
-    // Featured
-    const featuredIds = ["jittertuner","videx","audio_test"]; // adjust as needed
+    // Featured row — prefer JSON flag, else fallback to manual IDs
     if (featuredGrid){
-      const featured = projects.filter(p => featuredIds.includes(String(p.id)));
+      const byDate = (a,b)=> (new Date(b.date||0)) - (new Date(a.date||0));
+      let featured = projects.filter(p => p.featured === true).sort(byDate);
+
+      if (!featured.length){
+        const featuredIds = ["jittertuner","videx","audio_test"]; // fallback order
+        featured = projects.filter(p => featuredIds.includes(String(p.id)));
+      }
+
       featuredGrid.innerHTML = featured.map(cardMarkup).join("");
       featuredGrid.querySelectorAll("[data-open]").forEach(btn=>{
         btn.addEventListener("click", ()=>{
@@ -222,37 +251,5 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
       });
     }
-  } 
-
-  
-  const certList = document.querySelector("#certList");
-  if (certList){
-    const certEmpty = document.querySelector("#certEmpty");
-    const certs = await loadJSON("certifications.json") || [];
-    if (!certs.length) certEmpty?.classList.remove("hidden");
-    certList.innerHTML = certs.map(c=>`
-      <li>
-        <div class="row">
-          <strong>${c.name || ""}</strong>
-          ${c.shortDescription ? `<span class="meta">· ${c.shortDescription}</span>` : ""}
-          ${c.link ? `<a href="${c.link}" target="_blank" rel="noreferrer">Verify</a>` : ""}
-        </div>
-      </li>`).join("");
-  }
-
-  
-  const pubList = document.querySelector("#pubList");
-  if (pubList){
-    const pubEmpty = document.querySelector("#pubEmpty");
-    const pubs = await loadJSON("publications.json") || [];
-    if (!pubs.length) pubEmpty?.classList.remove("hidden");
-    pubList.innerHTML = pubs.map(p=>`
-      <li>
-        <div class="row">
-          <strong>${p.name || ""}</strong>
-          ${p.venue ? `<span class="meta">· ${p.venue}</span>` : ""}
-          ${p.link ? `<a href="${p.link}" target="_blank" rel="noreferrer">Link</a>` : ""}
-        </div>
-      </li>`).join("");
-  }
+  } // end Projects page
 });
