@@ -1,13 +1,11 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const $ = (sel) => document.querySelector(sel);
 
-  // Common refs
+  // ----- Common: year + theme -----
   const themeToggle = $("#themeToggle");
   const year = $("#year");
-
   if (year) year.textContent = new Date().getFullYear();
 
-  // THEME — default light, persist choice
   const setTheme = (t) => {
     document.documentElement.setAttribute("data-theme", t);
     localStorage.setItem("theme", t);
@@ -22,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     setTheme(cur === "light" ? "dark" : "light");
   });
 
-  // Helper: safe fetch JSON
+  // ----- Helper: safe JSON fetch -----
   async function loadJSON(url) {
     try {
       const r = await fetch(url, { cache: "no-store" });
@@ -34,19 +32,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // ======= HOME PAGE: Latest projects =======
+  // ===============================
+  // HOME (index): Latest projects
+  // ===============================
   const latestList = document.querySelector("#latestList");
   if (latestList){
     const projects = await loadJSON("projects.json") || [];
     const items = projects
-      .filter(p => p.date) // only dated projects
+      .filter(p => p.date)
       .sort((a,b) => (new Date(b.date)) - (new Date(a.date)))
-      .slice(0, 5); // show top 5
+      .slice(0, 5);
 
     const fmt = (iso) => {
-      try {
-        return new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
-      } catch { return iso; }
+      try { return new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); }
+      catch { return iso; }
     };
 
     latestList.innerHTML = items.length ? items.map(p => `
@@ -57,16 +56,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     `).join("") : `<li class="muted">No recent projects yet.</li>`;
   }
 
-  // ======= PROJECTS PAGE WIDGETS =======
+  // ==================================
+  // PROJECTS page (only if #grid exists)
+  // ==================================
   const grid = $("#grid");
   if (grid) {
     const featuredGrid = $("#featuredGrid");
     const empty = $("#emptyState");
-    const searchInput = $("#searchInput");
     const sortSelect = $("#sortSelect");
     const tagPills = $("#tagPills");
     const toggleTagsBtn = $("#toggleTags");
 
+    // Modal bits
     const modal = $("#projectModal");
     const modalTitle = $("#modalTitle");
     const modalSubtitle = $("#modalSubtitle");
@@ -79,7 +80,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const modalClose = modal?.querySelector(".modal-close");
     const modalLogo = $("#modalLogo");
 
-    let projects = await loadJSON("projects.json") || [];
+    const projects = await loadJSON("projects.json") || [];
 
     // State
     let search = "";
@@ -145,7 +146,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Filters & sort
     function filterSort(list){
       let out = list;
-      if (search.trim()){
+      const input = document.querySelector("#searchInput");
+      search = (input?.value || "").trim();
+
+      if (search){
         const q = search.toLowerCase();
         out = out.filter(p => {
           const hay = [p.title, p.subtitle, p.description, ...(p.tags || [])].filter(Boolean).join(" ").toLowerCase();
@@ -216,13 +220,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     // Inputs
-    $("#searchInput")?.addEventListener("input", ()=>{ search = $("#searchInput").value; update(); });
-    $("#sortSelect")?.addEventListener("change", ()=>{ sortMode = $("#sortSelect").value; update(); });
-
-    function update(){ render(filterSort(projects)); }
+    document.querySelector("#searchInput")?.addEventListener("input", ()=>{ render(filterSort(projects)); });
+    sortSelect?.addEventListener("change", ()=>{ sortMode = sortSelect.value; render(filterSort(projects)); });
 
     renderTags();
-    update();
+    render(filterSort(projects));
 
     // Deep-link open
     const hash = new URL(window.location.href).hash;
@@ -252,4 +254,40 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     }
   } // end Projects page
+
+  // ==================================
+  // CERTIFICATIONS page (if present)
+  // ==================================
+  const certList = document.querySelector("#certList");
+  if (certList){
+    const certEmpty = document.querySelector("#certEmpty");
+    const certs = await loadJSON("certifications.json") || [];
+    if (!certs.length) certEmpty?.classList.remove("hidden");
+    certList.innerHTML = certs.map(c=>`
+      <li>
+        <div class="row">
+          <strong>${c.name || ""}</strong>
+          ${c.shortDescription ? `<span class="meta">· ${c.shortDescription}</span>` : ""}
+          ${c.link ? `<a href="${c.link}" target="_blank" rel="noreferrer">Verify</a>` : ""}
+        </div>
+      </li>`).join("");
+  }
+
+  // ==================================
+  // PUBLICATIONS page (if present)
+  // ==================================
+  const pubList = document.querySelector("#pubList");
+  if (pubList){
+    const pubEmpty = document.querySelector("#pubEmpty");
+    const pubs = await loadJSON("publications.json") || [];
+    if (!pubs.length) pubEmpty?.classList.remove("hidden");
+    pubList.innerHTML = pubs.map(p=>`
+      <li>
+        <div class="row">
+          <strong>${p.name || ""}</strong>
+          ${p.venue ? `<span class="meta">· ${p.venue}</span>` : ""}
+          ${p.link ? `<a href="${p.link}" target="_blank" rel="noreferrer">Link</a>` : ""}
+        </div>
+      </li>`).join("");
+  }
 });
