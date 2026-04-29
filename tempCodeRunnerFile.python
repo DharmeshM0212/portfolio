@@ -1,0 +1,60 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+lam=1.0
+dx=lam/4
+k=2*np.pi/lam
+
+x=np.arange(-30,30+dx,dx)
+y=np.arange(-30,30+dx,dx)
+X,Y=np.meshgrid(x,y,indexing='xy')
+
+x_ap=np.arange(-30,30+dx,dx)
+y_ap=-60.0
+Na=x_ap.size
+
+r_src=np.sqrt(x_ap**2 + y_ap**2)
+s=np.exp(1j*k*r_src)/np.sqrt(r_src)
+
+xo=np.arange(-60,60+dx,dx)
+Ng=xo.size
+Nconv=Na+Ng-1
+Nfft=1024
+c0=int(np.ceil(Nconv/2))
+half=(Na-1)//2
+
+Sf=np.fft.fft(np.r_[s, np.zeros(Nfft-Na,dtype=complex)], n=Nfft)
+
+U=np.zeros((y.size, x.size), dtype=complex)
+for iy in range(y.size):
+    dy=y[iy]-y_ap
+    r=np.sqrt(xo**2 + dy**2)
+    gw=np.conj(np.exp(1j*k*r)/np.sqrt(r))
+    Gf=np.fft.fft(np.r_[gw, np.zeros(Nfft-Ng,dtype=complex)], n=Nfft)
+    conv_full=np.fft.ifft(Sf*Gf, n=Nfft)
+    conv_lin=conv_full[:Nconv]
+    start=c0-half-1
+    stop=c0+half
+    U[iy,:]=conv_lin[start:stop]
+
+plt.figure()
+plt.imshow(np.abs(U), extent=[x[0],x[-1],y[0],y[-1]], origin='lower', aspect='equal', cmap='hot')
+plt.colorbar()
+plt.title('|U(x,y)| Task 2')
+plt.xlabel('x [λ]'); plt.ylabel('y [λ]')
+
+F=512
+Hpad=np.zeros((F,F), dtype=complex)
+s0=(F-U.shape[0])//2
+Hpad[s0:s0+U.shape[0], s0:s0+U.shape[1]]=U
+Hk=np.fft.fftshift(np.fft.fft2(np.fft.ifftshift(Hpad)))
+A=np.abs(Hk)
+dk=1/(F*dx)
+kx=(np.arange(-F//2, F//2)*dk)*lam
+
+plt.figure()
+plt.imshow(20*np.log10(A/np.max(A)+1e-12), extent=[kx[0],kx[-1],kx[0],kx[-1]], origin='lower', aspect='equal', cmap='hot', vmin=-60, vmax=0)
+plt.colorbar()
+plt.title('Log|FFT| 512×512 Task 2')
+plt.xlabel(r'$f_x\cdot\lambda$'); plt.ylabel(r'$f_y\cdot\lambda$')
+plt.show()

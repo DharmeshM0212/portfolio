@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Projects — Dharmesh Mohanraj</title>
+  <meta name="description" content="Projects by Dharmesh Mohanraj — DSP, Embedded, AI/GenAI, Wireless." />
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#projects">Skip to projects</a>
+
+  <header class="site-header container">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">DM</div>
+      <div class="meta">
+        <h1>Projects</h1>
+        <p class="tagline">Selected builds, research prototypes, and demos</p>
+      </div>
+    </div>
+    <nav class="nav-actions">
+      <button id="themeToggle" class="btn ghost" aria-label="Toggle theme">🌙</button>
+      <a href="assets/Resume-Dharmesh Mohanraj FTE.pdf" class="btn" target="_blank" rel="noreferrer">Resume</a>
+      <a data-nav="home" href="index.html" class="btn">About</a>
+      <a data-nav="certs" href="certifications.html" class="btn">Certifications</a>
+      <a data-nav="pubs" href="publications.html" class="btn">Publications</a>
+    </nav>
+  </header>
+
+  <section id="featured" class="container featured">
+    <h2>Featured</h2>
+    <div id="featuredGrid" class="grid" role="list"></div>
+  </section>
+
+  <section class="controls container">
+    <div class="control search">
+      <input id="searchInput" type="search" placeholder="Search projects..." aria-label="Search projects" />
+    </div>
+    <div class="control sort">
+      <label for="sortSelect">Sort</label>
+      <select id="sortSelect" aria-label="Sort projects">
+        <option value="new">Newest first</option>
+        <option value="old">Oldest first</option>
+        <option value="az">A → Z</option>
+        <option value="za">Z → A</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="tags container">
+    <div id="tagPills" class="pills" aria-label="Filter by tag"></div>
+    <button id="toggleTags" class="btn ghost small" aria-expanded="false">Show more</button>
+  </section>
+
+  <main id="projects" class="container">
+    <div id="grid" class="grid" role="list"></div>
+    <div id="emptyState" class="empty hidden" role="status">No projects match your filters.</div>
+  </main>
+
+  <footer class="site-footer container">
+    <span>© <span id="year"></span> Dharmesh Mohanraj</span>
+    <span class="sep">•</span>
+    <a class="muted" href="#projects">Back to top ↑</a>
+  </footer>
+
+  <!-- Project Modal -->
+  <dialog id="projectModal" class="modal" aria-label="Project details">
+    <article class="modal-card">
+      <button class="modal-close" aria-label="Close">×</button>
+      <div class="modal-body">
+        <div class="modal-header">
+          <div class="modal-logo" id="modalLogo" aria-hidden="true">📦</div>
+          <div>
+            <h3 id="modalTitle"></h3>
+            <p id="modalSubtitle" class="muted"></p>
+          </div>
+        </div>
+        <div id="modalTags" class="pills compact"></div>
+        <p id="modalDesc"></p>
+        <ul id="modalHighlights" class="bullets"></ul>
+        <div class="modal-links">
+          <a id="modalGithub" class="btn" target="_blank" rel="noreferrer">GitHub</a>
+          <a id="modalDemo" class="btn ghost" target="_blank" rel="noreferrer">Live / Video</a>
+          <button id="modalCopyLink" class="btn ghost">Copy link</button>
+        </div>
+      </div>
+    </article>
+  </dialog>
+</body>
+</html>
