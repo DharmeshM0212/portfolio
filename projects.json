@@ -385,6 +385,38 @@
     "Optimized the spectral front-end by precomputing DFT twiddle factors, reducing average total frame time from 5.2361 ms to 2.4691 ms.",
     "Demonstrated latency-aware adaptive processing where low-MOS clips triggered more strong processing and higher-MOS clips triggered more bypass behavior."
   ]
+},
+{
+  "id": "stm32_rtos_diag",
+  "title": "FreeRTOS-Based STM32 Diagnostic Firmware Platform",
+  "subtitle": "STM32 Cortex-M4 • UART shell • ADC/PWM/GPIO diagnostics • Fault self-test",
+  "description": "Embedded C firmware for STM32 Nucleo-F446RE demonstrating a FreeRTOS diagnostic platform with UART commands, peripheral validation, fault injection, and manufacturing-style self-test routines.",
+  "longDescription": "Built a FreeRTOS-based diagnostic firmware platform on STM32 Nucleo-F446RE to demonstrate microcontroller bring-up, RTOS task partitioning, UART diagnostics, peripheral validation, and fault-management workflows. The firmware exposes a serial command shell over the ST-LINK Virtual COM Port and supports system status reporting, RTOS task display, ADC internal-channel readout, PWM LED control, GPIO interrupt event tracking, fault injection/clearing, self-test execution, and software reset. The project is designed as an embedded firmware bring-up and diagnostics prototype similar to what is used during board validation and manufacturing test.",
+  "github": "https://github.com/DharmeshM0212/FreeRTOS-Based-STM32-Diagnostic-Firmware-Platform",
+  "demo": "",
+  "emoji": "🔧",
+  "date": "2026-05-15",
+  "tags": [
+    "Embedded C",
+    "STM32",
+    "ARM Cortex-M",
+    "FreeRTOS",
+    "UART",
+    "ADC",
+    "PWM",
+    "GPIO",
+    "EXTI",
+    "Firmware Diagnostics",
+    "Board Bring-up"
+  ],
+  "highlights": [
+    "Built a FreeRTOS-based STM32 Cortex-M4 firmware platform with separate command, heartbeat, monitor, and fault-management tasks.",
+    "Implemented a UART diagnostic shell over ST-LINK Virtual COM Port at 115200 baud for status, version, RTOS task reporting, ADC readout, PWM control, fault handling, self-test, and software reset.",
+    "Validated board-level peripherals on STM32 Nucleo-F446RE including USART2, TIM2 PWM on PA5, ADC1 internal temperature/VREFINT channels, and GPIO EXTI interrupt on PC13.",
+    "Implemented fault injection and clearing logic where the fault manager overrides the normal heartbeat with a fast LED blink pattern.",
+    "Added manufacturing-style self-test routines that report PASS status for UART shell, FreeRTOS scheduler, PWM, GPIO interrupt path, ADC readout, and fault manager.",
+    "Used STM32CubeIDE, STM32 HAL, and PuTTY serial terminal to build, flash, debug, and verify the firmware."
+  ]
 }
 
 
