@@ -5,7 +5,7 @@
     "subtitle": "Echo suppression • Barge-in detection • ASR robustness • SDK-style Python package",
     "description": "A real-time-capable speech front-end for voice-agent systems that suppresses far-end speaker echo, stabilizes barge-in detection, and improves ASR robustness under full-duplex echo/noise conditions.",
     "longDescription": "Built EchoGuard as a reusable Python SDK-style full-duplex speech front-end for voice-agent pipelines. The system uses the far-end reference signal to estimate acoustic echo delay with GCC-PHAT, align the reference, learn an FIR echo-path filter from far-end-dominant audio, suppress the estimated speaker echo, and run an echo-aware residual barge-in detector. Evaluation is performed through file-based streaming simulation with 20 ms frames and 10 ms hop timing, reporting real-time factor, echo reduction, SNR gain, barge-in reliability, and downstream ASR WER. On the main full-duplex scenario, EchoGuard achieved 0.0 ms echo-delay error, 18.56 dB echo reduction, +7.30 dB SNR gain, and 0.059 real-time factor. Compared with a raw microphone energy gate, false barge-in rate dropped from 0.411 to 0.000. Across 10 Mini LibriSpeech full-duplex pairs, the same ASR model saw mean WER improve from 0.747 on raw microphone audio to 0.115 after EchoGuard front-end processing.",
-    "github": "https://github.com/DharmeshM0212/EchoGuard-Real-Time-Capable-Full-Duplex-Audio-Front-End-for-Voice-Agents",
+    "github": "https://github.com/DharmeshM0212/speechguard",
     "demo": "",
     "emoji": "🎙️",
     "date": "2026-05-28",
@@ -41,6 +41,56 @@
       "Evaluated downstream ASR impact over 10 Mini LibriSpeech full-duplex pairs, reducing mean WER from 0.747 to 0.115.",
       "Generated waveform, ERLE, barge-in comparison, baseline-energy, ASR spectrogram, JSON, and CSV artifacts for reproducible reporting.",
       "Packaged the core logic as an editable Python module with `pyproject.toml` and clean imports through `from echoguard import EchoGuardPipeline`."
+    ]
+  },
+  {
+    "id": "vcm_lite_edge_camera",
+    "title": "VCM-Lite Edge Camera: Task-Aware Semantic Video Compression",
+    "subtitle": "WebRTC ingest • Arduino Uno Q • ISP-Lite • Semantic ROI compression • Adaptive controller",
+    "description": "A VCM-inspired semantic edge-camera pipeline that streams traffic video over WebRTC to Arduino Uno Q, preserves vehicle ROIs through task-aware context+ROI compression, and uses a closed-loop adaptive controller to balance bitrate, latency, and detection quality.",
+    "longDescription": "Built VCM-Lite as a real-time-capable semantic edge-camera system for traffic monitoring on Arduino Uno Q. The pipeline streams video through a WebRTC ingest path, bridges decoded frames into a C++ engine, applies ISP-Lite enhancement, selects task-relevant vehicle regions using a YOLOv8n-style detector fine-tuned from a pretrained model for traffic classes, compresses each frame as a low-resolution context image plus higher-quality object ROI tiles, reconstructs a semantic frame, and validates whether vehicle evidence is preserved after compression. The main contribution is a closed-loop adaptive semantic controller that observes FPS, latency, queue pressure, ROI area, semantic bitrate, task preservation loss, and detector confidence drop, then adjusts ROI quality, context quality, ROI budget, detector interval, and re-encoding behavior. On dense traffic, the system achieved 138.92 ms average latency, 316.09 ms P95 latency, 693.89 kbps semantic bitrate, 0.0247 task preservation loss, 24.82 dB semantic PSNR, and 0.9748 SSIM while preserving the highest ROI area ratio among the test scenarios. The project includes FastAPI dashboard observability, runtime JSONL logs, benchmark scripts, generated comparison plots, and MCU-side health telemetry for edge-device monitoring.",
+    "github": "https://github.com/DharmeshM0212/vcm-lite-edge-camera",
+    "demo": "",
+    "emoji": "📹",
+    "date": "2026-06-10",
+    "featured": true,
+    "tags": [
+      "Computer Vision",
+      "Video Compression",
+      "VCM",
+      "Edge AI",
+      "Arduino Uno Q",
+      "WebRTC",
+      "C++",
+      "Python",
+      "FastAPI",
+      "ONNX",
+      "YOLO",
+      "ISP",
+      "Adaptive Control",
+      "Semantic Compression",
+      "Traffic Monitoring",
+      "Real-Time Video"
+    ],
+    "metrics": [
+      "Dense traffic: 138.92 ms average latency, 316.09 ms P95 latency, 693.89 kbps semantic bitrate",
+      "Task preservation: 0.0247 task loss on dense traffic with 0.9748 SSIM and 24.82 dB PSNR",
+      "ISP-Lite: dense traffic brightness improved from 79.43 to 109.74 and contrast from 43.27 to 59.21",
+      "Scenario evaluation: sparse/object-light, dense traffic, and short low-light night stress clips with final CSV and plot reports"
+    ],
+    "highlights": [
+      "Built an end-to-end semantic edge-camera pipeline that streams video over WebRTC into Arduino Uno Q and processes frames in a C++ engine.",
+      "Implemented ISP-Lite preprocessing to improve brightness and contrast before ROI selection and semantic encoding.",
+      "Fine-tuned a pretrained YOLOv8n-style detector for traffic classes including car, van, bus, and others, then exported it to ONNX for edge inference.",
+      "Designed a VCM-inspired context+ROI compression format that keeps low-resolution scene context while preserving task-critical vehicle ROI tiles at higher quality.",
+      "Implemented semantic reconstruction that restores selected object ROIs into the context frame for task-focused machine interpretation rather than pixel-perfect playback.",
+      "Added task-preservation validation using reference detector confidence, reconstructed detector confidence, confidence drop, PSNR, SSIM, and task preservation loss.",
+      "Built a closed-loop adaptive controller that changes ROI quality, context quality, ROI limits, detector interval, and re-encoding based on latency, bitrate, ROI area, queue pressure, and task loss.",
+      "Achieved the strongest result on dense traffic: 138.92 ms average latency, 693.89 kbps semantic bitrate, 0.0247 task preservation loss, and 0.9748 SSIM.",
+      "Created a FastAPI dashboard showing WebRTC ingest status, semantic packet details, adaptive controller state, ISP metrics, task detector output, and reconstruction validation.",
+      "Added MCU-side telemetry to demonstrate a realistic edge split where the Linux side handles video processing and the internal MCU side reports compact device health.",
+      "Generated reproducible benchmark artifacts including JSONL logs, final comparison CSV, runtime breakdowns, and plots for FPS, latency, bitrate, ROI area, task loss, PSNR, SSIM, brightness, contrast, and ISP runtime.",
+      "Designed the architecture to be transferable beyond traffic monitoring by replacing the task detector and ROI policy for factory inspection, security cameras, warehouse robotics, retail monitoring, or wildlife sensing."
     ]
   },
   {
@@ -82,7 +132,6 @@
     "github": "https://github.com/DharmeshM0212/Audio-Testing",
     "demo": "",
     "emoji": "🎧",
-    "featured": true,
     "date": "2025-06-30",
     "tags": [
       "DSP",
@@ -516,7 +565,6 @@
     "github": "https://github.com/DharmeshM0212/Adaptive-RS-FEC-Controller-for-Multi-Lane-PAM4-Links",
     "demo": "",
     "emoji": "🧠",
-    "featured": true,
     "date": "2025-10-22",
     "tags": [
       "DSP",
